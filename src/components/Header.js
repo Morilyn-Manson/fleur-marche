@@ -30,7 +30,7 @@ export default function Header() {
         };
     }, [isOpen]);
 
-    // 🌟 修正ポイント：アンカーリンクをクリックした際に心地よくスクロールさせる関数
+    // アンカーリンクをクリックした際に心地よくスクロールさせる関数
     const handleAnchorClick = (e, href) => {
         e.preventDefault();
         setIsOpen(false); // スマホメニューが開いていた場合は閉じる
@@ -47,17 +47,18 @@ export default function Header() {
 
             window.scrollTo({
                 top: offsetPosition,
-                behavior: 'smooth' // 👈 スーッと動くアニメーション
+                behavior: 'smooth' // スーッと動くアニメーション
             });
         }
     };
 
-    // ナビゲーション項目定義
+    // 🌟 CONTACTも含めた共通のメニュー配列
     const menuItems = [
         { label: 'COMPANY', subLabel: '会社概要', href: '/company', isAnchor: false },
         { label: 'SERVICE', subLabel: 'サービス', href: '/service', isAnchor: false },
         { label: 'SHOP', subLabel: '店舗情報', href: '#shop', isAnchor: true },
         { label: 'GALLERY', subLabel: 'ギャラリー', href: '/gallery', isAnchor: false },
+        { label: 'CONTACT', subLabel: 'お問い合わせ', href: '/contact', isAnchor: false },
     ];
 
     return (
@@ -95,7 +96,6 @@ export default function Header() {
                             <Component
                                 key={item.label}
                                 href={item.href}
-                                // 🌟 修正ポイント：アンカーリンクの時だけカスタムスクロール関数を発火
                                 onClick={item.isAnchor ? (e) => handleAnchorClick(e, item.href) : undefined}
                                 className={`group flex flex-col items-center cursor-pointer transition-colors duration-300 ${isScrolled ? 'text-stone-600' : 'text-white'
                                     }`}
@@ -113,15 +113,6 @@ export default function Header() {
                             </Component>
                         );
                     })}
-
-                    {/* お問い合わせボタン */}
-                    <Link
-                        href="/contact"
-                        className="bg-emerald-800 hover:bg-emerald-700 text-white text-[11px] px-5 py-2.5 rounded-full shadow-sm transition-all duration-200 tracking-widest hover:shadow"
-                        style={{ fontFamily: "'Lora', sans-serif" }}
-                    >
-                        CONTACT
-                    </Link>
                 </nav>
 
                 {/* 📱 スマホ用ハンバーガーボタン（右寄せ） */}
@@ -139,13 +130,13 @@ export default function Header() {
                 <div className={`fixed top-0 left-0 w-screen h-screen bg-stone-50/98 backdrop-blur-md z-40 flex flex-col justify-center items-center gap-8 transition-all duration-500 md:hidden overflow-y-auto ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
                     }`}>
                     <nav className="flex flex-col items-center gap-6 text-sm font-bold tracking-[0.2em] text-stone-800 text-center py-8">
+                        {/* 🌟 修正ポイント：SPでも「CONTACT」をボタン化せず、他と同じ美しいテキストリンク構造（サブタイトル付き）に完全に統一 */}
                         {menuItems.map((item) => {
                             const Component = item.isAnchor ? 'a' : Link;
                             return (
                                 <Component
                                     key={item.label}
                                     href={item.href}
-                                    // 🌟 修正ポイント：スマホメニュー内でも滑らかにスクロールさせる
                                     onClick={item.isAnchor ? (e) => handleAnchorClick(e, item.href) : () => setIsOpen(false)}
                                     className="group flex flex-col items-center cursor-pointer"
                                 >
@@ -158,15 +149,6 @@ export default function Header() {
                                 </Component>
                             );
                         })}
-
-                        <Link
-                            href="/contact"
-                            onClick={() => setIsOpen(false)}
-                            className="bg-emerald-800 hover:bg-emerald-700 text-white text-xs px-6 py-3 rounded-full shadow-sm text-center tracking-widest mt-2"
-                            style={{ fontFamily: "'Lora', sans-serif" }}
-                        >
-                            CONTACT
-                        </Link>
                     </nav>
                 </div>
 
