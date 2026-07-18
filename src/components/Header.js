@@ -30,33 +30,37 @@ export default function Header() {
         };
     }, [isOpen]);
 
-    // アンカーリンクをクリックした際に心地よくスクロールさせる関数
+    // 🌟 修正ポイント：別ページからでもTOPページの特定位置にスクロールさせる関数
     const handleAnchorClick = (e, href) => {
-        e.preventDefault();
         setIsOpen(false); // スマホメニューが開いていた場合は閉じる
 
-        // '#' を除いたID名を取得（#shop ➔ shop）
-        const targetId = href.replace('#', '');
-        const targetElement = document.getElementById(targetId);
+        // 今いるページがTOP（'/'）であるかどうかをチェック
+        if (window.location.pathname === '/') {
+            // TOPページにいるなら、元のページ内スムーズスクロールを実行
+            e.preventDefault();
+            const targetId = href.replace('#', '');
+            const targetElement = document.getElementById(targetId);
 
-        if (targetElement) {
-            // ヘッダーの高さ分（約80px）を考慮してスクロール位置を調整
-            const headerOffset = 80;
-            const elementPosition = targetElement.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            if (targetElement) {
+                const headerOffset = 80;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth' // スーッと動くアニメーション
-            });
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
         }
+        // 今いる場所がTOP以外なら、e.preventDefault() をあえて「実行しない」ことで、
+        // Next.jsの通常の遷移（Linkのhref="/#shop"）に任せてTOPページの該当箇所へジャンプさせます。
     };
 
-    // 🌟 CONTACTも含めた共通のメニュー配列
+    // 🌟 修正ポイント：別ページからでも機能するように href を 「/#shop」 に変更
     const menuItems = [
         { label: 'COMPANY', subLabel: '会社概要', href: '/company', isAnchor: false },
         { label: 'SERVICE', subLabel: 'サービス', href: '/service', isAnchor: false },
-        { label: 'SHOP', subLabel: '店舗情報', href: '#shop', isAnchor: true },
+        { label: 'SHOP', subLabel: '店舗情報', href: '/#shop', isAnchor: true }, // ➔ /#shop に変更
         { label: 'GALLERY', subLabel: 'ギャラリー', href: '/gallery', isAnchor: false },
         { label: 'CONTACT', subLabel: 'お問い合わせ', href: '/contact', isAnchor: false },
     ];
@@ -91,12 +95,12 @@ export default function Header() {
                 {/* 💻 PC用ナビゲーション */}
                 <nav className="hidden md:flex items-center gap-6 lg:gap-10 text-xs font-semibold tracking-[0.15em]">
                     {menuItems.map((item) => {
-                        const Component = item.isAnchor ? 'a' : Link;
+                        // 🌟 修正ポイント：すべてのアイテムで Link コンポーネントを使用し、Next.jsの画面遷移を安全に行えるように統一
                         return (
-                            <Component
+                            <Link
                                 key={item.label}
                                 href={item.href}
-                                onClick={item.isAnchor ? (e) => handleAnchorClick(e, item.href) : undefined}
+                                onClick={item.isAnchor ? (e) => handleAnchorClick(e, item.href.replace('/', '')) : undefined}
                                 className={`group flex flex-col items-center cursor-pointer transition-colors duration-300 ${isScrolled ? 'text-stone-600' : 'text-white'
                                     }`}
                                 style={{ fontFamily: "'Lora', serif" }}
@@ -110,7 +114,7 @@ export default function Header() {
                                 >
                                     {item.subLabel}
                                 </span>
-                            </Component>
+                            </Link>
                         );
                     })}
                 </nav>
@@ -130,14 +134,12 @@ export default function Header() {
                 <div className={`fixed top-0 left-0 w-screen h-screen bg-stone-50/98 backdrop-blur-md z-40 flex flex-col justify-center items-center gap-8 transition-all duration-500 md:hidden overflow-y-auto ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
                     }`}>
                     <nav className="flex flex-col items-center gap-6 text-sm font-bold tracking-[0.2em] text-stone-800 text-center py-8">
-                        {/* 🌟 修正ポイント：SPでも「CONTACT」をボタン化せず、他と同じ美しいテキストリンク構造（サブタイトル付き）に完全に統一 */}
                         {menuItems.map((item) => {
-                            const Component = item.isAnchor ? 'a' : Link;
                             return (
-                                <Component
+                                <Link
                                     key={item.label}
                                     href={item.href}
-                                    onClick={item.isAnchor ? (e) => handleAnchorClick(e, item.href) : () => setIsOpen(false)}
+                                    onClick={item.isAnchor ? (e) => handleAnchorClick(e, item.href.replace('/', '')) : () => setIsOpen(false)}
                                     className="group flex flex-col items-center cursor-pointer"
                                 >
                                     <span className="group-hover:text-emerald-700 transition-colors" style={{ fontFamily: "'Lora', serif" }}>
@@ -146,7 +148,7 @@ export default function Header() {
                                     <span className="text-[10px] font-medium text-stone-400 tracking-normal mt-0.5" style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}>
                                         {item.subLabel}
                                     </span>
-                                </Component>
+                                </Link>
                             );
                         })}
                     </nav>
