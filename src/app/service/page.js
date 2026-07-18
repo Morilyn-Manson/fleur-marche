@@ -29,14 +29,14 @@ export default function ServicePage() {
                 <div className="max-w-6xl mx-auto px-6">
 
                     {/* セクション見出し */}
-                    <div className="text-center mb-12 space-y-3">
-                        <span
-                            className="text-xs font-semibold tracking-[0.3em] uppercase text-emerald-800/70 block"
+                    <div className="text-center mb-16 space-y-4">
+                        <h1
+                            className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-[0.2em] uppercase text-emerald-950 block"
                             style={{ fontFamily: "'Lora', serif" }}
                         >
                             Our Service
-                        </span>
-                        <div className="w-12 h-px bg-emerald-900/20 mx-auto pt-2" />
+                        </h1>
+                        <div className="w-16 h-px bg-emerald-900/30 mx-auto pt-2" />
                     </div>
 
                     {/* ページ内クイックナビゲーションタブ */}
