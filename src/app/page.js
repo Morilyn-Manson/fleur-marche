@@ -112,16 +112,7 @@ export default function Home() {
               フランスのマルシェを訪れるときのような、<br className="sm:hidden" />胸の高鳴りを。
             </p>
 
-            {/* ボタンエリア */}
-            <div className="pt-6 sm:pt-8">
-              <a
-                href="#concept"
-                className="inline-flex items-center justify-center bg-emerald-900 hover:bg-emerald-950 text-white text-xs font-bold tracking-[0.2em] px-8 py-4 rounded-full transition-all duration-300 shadow-md"
-                style={{ fontFamily: "'Lora', sans-serif" }}
-              >
-                VIEW MORE
-              </a>
-            </div>
+            {/* 💡 VIEW MORE ボタンエリア（削除完了しました） */}
           </div>
 
           {/* 🌟 スクロール表示エリア */}
