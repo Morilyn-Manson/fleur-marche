@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export default function Home() {
-  // 🌟 メインビジュアル＆キャッチコピーの読み込み完了ステート
+  // 🌟 メインビジュアル＆キャッチコピーの読み込み完了アニメーション用ステート
   const [isHeroLoaded, setIsHeroLoaded] = useState(false);
 
   // 🌟 各セクションのスクロール検知用ステート＆Ref
@@ -21,9 +21,61 @@ export default function Home() {
   const [isShopVisible, setIsShopVisible] = useState(false);
   const shopRef = useRef(null);
 
+  // 🌟 Instagram投稿データ用ステート
+  const [yaotomePosts, setYaotomePosts] = useState([]);
+  const [aerPosts, setAerPosts] = useState([]);
+  const [loadingYaotome, setLoadingYaotome] = useState(true);
+  const [loadingAer, setLoadingAer] = useState(true);
+
+  // 🌟 Behold JSON Feed URL (八乙女店・AER店)
+  const YAOTOME_BEHOLD_URL = 'https://feeds.behold.so/QMVYvBk2bB8cLZIzUILZ';
+  const AER_BEHOLD_URL = 'https://feeds.behold.so/6yUdsYgJXb8DWxQvvK9g';
+
   useEffect(() => {
     // 🌸 ページ読み込み完了時にメインビジュアルとキャッチコピーのアニメーションを発火
     setIsHeroLoaded(true);
+
+    // 📸 共通の投稿データ取得・整形関数
+    const fetchInstagramPosts = async (url, setPosts, setLoading, shopName) => {
+      try {
+        setLoading(true);
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        // BeholdのJSON構造（data.posts）から投稿配列を取得
+        const rawPosts = Array.isArray(data.posts) ? data.posts : (Array.isArray(data) ? data : []);
+
+        // 画像URLの抽出（Beholdの正方形最適化URLを優先使用）と最新4件取得
+        const formattedPosts = rawPosts.map((post) => {
+          const displayImageUrl =
+            post.sizes?.medium?.mediaUrl ||
+            post.sizes?.small?.mediaUrl ||
+            post.thumbnailUrl ||
+            post.mediaUrl || '';
+
+          return {
+            id: post.id || Math.random().toString(),
+            permalink: post.permalink || 'https://www.instagram.com',
+            mediaUrl: displayImageUrl,
+            caption: post.caption || post.prunedCaption || ''
+          };
+        }).filter(post => post.mediaUrl !== '').slice(0, 4);
+
+        setPosts(formattedPosts);
+
+      } catch (error) {
+        console.error(`Failed to fetch ${shopName} Instagram posts:`, error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // 🌟 八乙女店・AER店のデータ取得
+    fetchInstagramPosts(YAOTOME_BEHOLD_URL, setYaotomePosts, setLoadingYaotome, 'Yaotome');
+    fetchInstagramPosts(AER_BEHOLD_URL, setAerPosts, setLoadingAer, 'AER');
 
     // 共通の IntersectionObserver オプション（画面下から30%の位置で発火）
     const observerOptions = {
@@ -66,7 +118,7 @@ export default function Home() {
     };
   }, []);
 
-  // 🌟 スクロールセクション用インラインスタイル生成関数
+  // 🌟 スクロールセクション用インラインスタイル生成関数 (2sかけて「下から30px浮き上がり ＋ 8pxのぼかし解除」)
   const getFadeUpStyle = (isVisible, delaySeconds) => ({
     opacity: isVisible ? 1 : 0,
     transform: isVisible ? 'translateY(0px)' : 'translateY(30px)',
@@ -74,6 +126,15 @@ export default function Home() {
     transition: `opacity 2s cubic-bezier(0.16, 1, 0.3, 1) ${delaySeconds}s, transform 2s cubic-bezier(0.16, 1, 0.3, 1) ${delaySeconds}s, filter 2s cubic-bezier(0.16, 1, 0.3, 1) ${delaySeconds}s`,
     willChange: 'opacity, transform, filter',
   });
+
+  // 🌟 Instagramフィードのロード中スケルトン画面コンポーネント
+  const SkeletonFeed = () => (
+    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+      {[...Array(4)].map((_, i) => (
+        <div key={i} className="aspect-square rounded-2xl bg-stone-100 animate-pulse border border-stone-200/50" />
+      ))}
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-stone-50 text-stone-850 antialiased selection:bg-emerald-50">
@@ -333,16 +394,16 @@ export default function Home() {
             {/* 🌟 アカウント配置コンテナ：SPは縦1列 / PC(lg)は横2列並び */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-start">
 
-              {/* 📸 1. 八乙女店 アカウントカード (Delay: 0.2s) */}
+              {/* 📸 1. 八乙女店 アカウントカード */}
               <div
                 className="bg-white p-5 sm:p-7 rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.03)] space-y-5"
                 style={getFadeUpStyle(isInstaVisible, 0.2)}
               >
 
                 {/* アカウントヘッダー部 */}
-                <div className="flex items-center justify-between border-b border-stone-100 pb-4">
+                <div className="flex items-center border-b border-stone-100 pb-4">
                   <div className="flex items-center space-x-3 text-left">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600 p-[2px]">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600 p-[2px] flex-shrink-0">
                       <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
                         <span className="text-[10px] font-bold text-emerald-900" style={{ fontFamily: "'Lora', serif" }}>FM</span>
                       </div>
@@ -362,50 +423,53 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-bold text-emerald-800 hover:text-white border border-emerald-800/30 bg-transparent hover:bg-emerald-800 px-4 py-1.5 rounded-full transition-all duration-300"
-                    style={{ fontFamily: "'Lora', serif" }}
-                  >
-                    Follow
-                  </a>
                 </div>
 
-                {/* フィード写真（2×2） */}
-                <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                  {[1, 2, 3, 4].map((id) => (
-                    <div key={id} className="relative aspect-square rounded-2xl overflow-hidden bg-stone-50 group cursor-pointer shadow-2xs">
-                      <div
-                        className="w-full h-full bg-emerald-900/5 group-hover:scale-103 transition-transform duration-700 ease-out flex items-center justify-center text-stone-300 text-xs"
-                        style={{ fontFamily: "'Lora', serif" }}
+                {/* フィード写真（2×2 リアルタイム取得データ） */}
+                {loadingYaotome ? (
+                  <SkeletonFeed />
+                ) : (
+                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                    {yaotomePosts.map((post) => (
+                      <a
+                        key={post.id}
+                        href={post.permalink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative aspect-square rounded-2xl overflow-hidden bg-stone-50 group cursor-pointer shadow-2xs border border-stone-100 block"
                       >
-                        photo
-                      </div>
-                      <div className="absolute inset-0 bg-emerald-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span
-                          className="text-white text-xs tracking-widest font-medium bg-black/10 px-3 py-1.5 rounded-full backdrop-blur-xs"
-                          style={{ fontFamily: "'Lora', serif" }}
-                        >
-                          View Post
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                        <Image
+                          src={post.mediaUrl}
+                          alt={post.caption || 'Fleur Marche Yaotome Instagram Post'}
+                          fill
+                          sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 15vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                          unoptimized
+                        />
+                        <div className="absolute inset-0 bg-emerald-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <span
+                            className="text-white text-xs tracking-widest font-medium bg-black/10 px-3 py-1.5 rounded-full backdrop-blur-xs"
+                            style={{ fontFamily: "'Lora', serif" }}
+                          >
+                            View Post
+                          </span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {/* 📸 2. AER（アエル）店 アカウントカード (Delay: 0.4s) */}
+              {/* 📸 2. AER（アエル）店 アカウントカード */}
               <div
                 className="bg-white p-5 sm:p-7 rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.03)] space-y-5"
                 style={getFadeUpStyle(isInstaVisible, 0.4)}
               >
 
                 {/* アカウントヘッダー部 */}
-                <div className="flex items-center justify-between border-b border-stone-100 pb-4">
+                <div className="flex items-center border-b border-stone-100 pb-4">
                   <div className="flex items-center space-x-3 text-left">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600 p-[2px]">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600 p-[2px] flex-shrink-0">
                       <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
                         <span className="text-[10px] font-bold text-emerald-900" style={{ fontFamily: "'Lora', serif" }}>FM</span>
                       </div>
@@ -425,38 +489,41 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-bold text-emerald-800 hover:text-white border border-emerald-800/30 bg-transparent hover:bg-emerald-800 px-4 py-1.5 rounded-full transition-all duration-300"
-                    style={{ fontFamily: "'Lora', serif" }}
-                  >
-                    Follow
-                  </a>
                 </div>
 
-                {/* フィード写真（2×2） */}
-                <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                  {[1, 2, 3, 4].map((id) => (
-                    <div key={id} className="relative aspect-square rounded-2xl overflow-hidden bg-stone-50 group cursor-pointer shadow-2xs">
-                      <div
-                        className="w-full h-full bg-emerald-900/5 group-hover:scale-103 transition-transform duration-700 ease-out flex items-center justify-center text-stone-300 text-xs"
-                        style={{ fontFamily: "'Lora', serif" }}
+                {/* フィード写真（2×2 リアルタイム取得データ） */}
+                {loadingAer ? (
+                  <SkeletonFeed />
+                ) : (
+                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                    {aerPosts.map((post) => (
+                      <a
+                        key={post.id}
+                        href={post.permalink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative aspect-square rounded-2xl overflow-hidden bg-stone-50 group cursor-pointer shadow-2xs border border-stone-100 block"
                       >
-                        photo
-                      </div>
-                      <div className="absolute inset-0 bg-emerald-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span
-                          className="text-white text-xs tracking-widest font-medium bg-black/10 px-3 py-1.5 rounded-full backdrop-blur-xs"
-                          style={{ fontFamily: "'Lora', serif" }}
-                        >
-                          View Post
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                        <Image
+                          src={post.mediaUrl}
+                          alt={post.caption || 'Fleur Marche AER Instagram Post'}
+                          fill
+                          sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 15vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                          unoptimized
+                        />
+                        <div className="absolute inset-0 bg-emerald-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <span
+                            className="text-white text-xs tracking-widest font-medium bg-black/10 px-3 py-1.5 rounded-full backdrop-blur-xs"
+                            style={{ fontFamily: "'Lora', serif" }}
+                          >
+                            View Post
+                          </span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
 
             </div>
