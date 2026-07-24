@@ -1,12 +1,80 @@
 // 📄 src/app/page.js
 "use client";
 
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export default function Home() {
+  // 🌟 メインビジュアル＆キャッチコピーの読み込み完了ステート
+  const [isHeroLoaded, setIsHeroLoaded] = useState(false);
+
+  // 🌟 各セクションのスクロール検知用ステート＆Ref
+  const [isConceptVisible, setIsConceptVisible] = useState(false);
+  const conceptRef = useRef(null);
+
+  const [isInstaVisible, setIsInstaVisible] = useState(false);
+  const instaRef = useRef(null);
+
+  const [isShopVisible, setIsShopVisible] = useState(false);
+  const shopRef = useRef(null);
+
+  useEffect(() => {
+    // 🌸 ページ読み込み完了時にメインビジュアルとキャッチコピーのアニメーションを発火
+    setIsHeroLoaded(true);
+
+    // 共通の IntersectionObserver オプション（画面下から30%の位置で発火）
+    const observerOptions = {
+      rootMargin: "0px 0px -30% 0px",
+      threshold: 0
+    };
+
+    // 1. Concept Observer
+    const conceptObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsConceptVisible(true);
+        conceptObserver.unobserve(entry.target);
+      }
+    }, observerOptions);
+
+    // 2. Instagram Observer
+    const instaObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsInstaVisible(true);
+        instaObserver.unobserve(entry.target);
+      }
+    }, observerOptions);
+
+    // 3. Shop Observer
+    const shopObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsShopVisible(true);
+        shopObserver.unobserve(entry.target);
+      }
+    }, observerOptions);
+
+    if (conceptRef.current) conceptObserver.observe(conceptRef.current);
+    if (instaRef.current) instaObserver.observe(instaRef.current);
+    if (shopRef.current) shopObserver.observe(shopRef.current);
+
+    return () => {
+      if (conceptRef.current) conceptObserver.unobserve(conceptRef.current);
+      if (instaRef.current) instaObserver.unobserve(instaRef.target);
+      if (shopRef.current) shopObserver.unobserve(shopRef.current);
+    };
+  }, []);
+
+  // 🌟 スクロールセクション用インラインスタイル生成関数
+  const getFadeUpStyle = (isVisible, delaySeconds) => ({
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? 'translateY(0px)' : 'translateY(30px)',
+    filter: isVisible ? 'blur(0px)' : 'blur(8px)',
+    transition: `opacity 2s cubic-bezier(0.16, 1, 0.3, 1) ${delaySeconds}s, transform 2s cubic-bezier(0.16, 1, 0.3, 1) ${delaySeconds}s, filter 2s cubic-bezier(0.16, 1, 0.3, 1) ${delaySeconds}s`,
+    willChange: 'opacity, transform, filter',
+  });
+
   return (
     <div className="min-h-screen bg-stone-50 text-stone-850 antialiased selection:bg-emerald-50">
       {/* 🌿 ヘッダーの配置 */}
@@ -27,24 +95,36 @@ export default function Home() {
               <div className="grid grid-cols-1 w-full h-full md:hidden">
 
                 {/* SPの1枚目（上半分） */}
-                <div className="relative w-full h-full bg-stone-100 border-b border-white/20">
+                <div className="relative w-full h-full bg-stone-100 border-b border-white/20 overflow-hidden">
                   <Image
                     src="/images/top_img01.png"
                     alt="フルールマルシェ メインビジュアル 01"
                     fill
                     priority
                     className="object-cover"
+                    style={{
+                      transform: isHeroLoaded ? 'scale(1)' : 'scale(1.2)',
+                      filter: isHeroLoaded ? 'blur(0px)' : 'blur(10px)',
+                      transition: 'transform 2s cubic-bezier(0.16, 1, 0.3, 1), filter 2s cubic-bezier(0.16, 1, 0.3, 1)',
+                      willChange: 'transform, filter',
+                    }}
                   />
                 </div>
 
                 {/* SPの2枚目（下半分） */}
-                <div className="relative w-full h-full bg-stone-100">
+                <div className="relative w-full h-full bg-stone-100 overflow-hidden">
                   <Image
                     src="/images/top_img02.png"
                     alt="フルールマルシェ メインビジュアル 02"
                     fill
                     priority
                     className="object-cover"
+                    style={{
+                      transform: isHeroLoaded ? 'scale(1)' : 'scale(1.2)',
+                      filter: isHeroLoaded ? 'blur(0px)' : 'blur(10px)',
+                      transition: 'transform 2s cubic-bezier(0.16, 1, 0.3, 1), filter 2s cubic-bezier(0.16, 1, 0.3, 1)',
+                      willChange: 'transform, filter',
+                    }}
                   />
                 </div>
 
@@ -55,25 +135,37 @@ export default function Home() {
 
                 {/* 📸 PC：1枚目の画像（大：70%サイズ・左奥） */}
                 <div className="absolute left-12 top-[12%] w-[70%] aspect-video rounded-3xl overflow-hidden border border-emerald-900/5 shadow-[0_20px_50px_rgba(4,47,31,0.05)] transform -rotate-1 hover:rotate-0 hover:scale-101 transition-all duration-700 ease-out z-10 group">
-                  <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/5 via-transparent to-transparent z-10 mix-blend-multiply" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/5 via-transparent to-transparent z-10 mix-blend-multiply pointer-events-none" />
                   <Image
                     src="/images/top_img01.png"
                     alt="フルールマルシェ メインビジュアル 01"
                     fill
                     priority
                     className="object-cover"
+                    style={{
+                      transform: isHeroLoaded ? 'scale(1)' : 'scale(1.2)',
+                      filter: isHeroLoaded ? 'blur(0px)' : 'blur(10px)',
+                      transition: 'transform 2s cubic-bezier(0.16, 1, 0.3, 1), filter 2s cubic-bezier(0.16, 1, 0.3, 1)',
+                      willChange: 'transform, filter',
+                    }}
                   />
                 </div>
 
                 {/* 📸 PC：2枚目の画像（小：50%サイズ・右下手前） */}
                 <div className="absolute right-12 bottom-[12%] w-[50%] aspect-video rounded-3xl overflow-hidden border border-emerald-900/5 shadow-[0_40px_80px_rgba(4,47,31,0.14)] transform rotate-1.5 hover:rotate-0 hover:scale-101 transition-all duration-700 ease-out z-20 group">
-                  <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/10 via-transparent to-transparent z-10 mix-blend-multiply" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/10 via-transparent to-transparent z-10 mix-blend-multiply pointer-events-none" />
                   <Image
                     src="/images/top_img02.png"
                     alt="フルールマルシェ メインビジュアル 02"
                     fill
                     priority
                     className="object-cover"
+                    style={{
+                      transform: isHeroLoaded ? 'scale(1)' : 'scale(1.2)',
+                      filter: isHeroLoaded ? 'blur(0px)' : 'blur(10px)',
+                      transition: 'transform 2s cubic-bezier(0.16, 1, 0.3, 1), filter 2s cubic-bezier(0.16, 1, 0.3, 1)',
+                      willChange: 'transform, filter',
+                    }}
                   />
                 </div>
 
@@ -85,8 +177,17 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-stone-50/10 pointer-events-none z-30" />
           </div>
 
-          {/* 中央の華やかなキャッチコピー */}
-          <div className="relative z-30 text-center px-6 py-8 sm:py-10 max-w-[95vw] md:max-w-3xl mx-auto flex flex-col items-center justify-center bg-white/40 rounded-2xl border border-white/20 shadow-sm">
+          {/* 🌟 ✨ 中央の華やかなキャッチコピー（2sかけて「下から30px浮き上がり ＋ 10pxのぼかし解除」） */}
+          <div
+            className="relative z-30 text-center px-6 py-8 sm:py-10 max-w-[95vw] md:max-w-3xl mx-auto flex flex-col items-center justify-center bg-white/40 rounded-2xl border border-white/20 shadow-sm"
+            style={{
+              opacity: isHeroLoaded ? 1 : 0,
+              transform: isHeroLoaded ? 'translateY(0px)' : 'translateY(30px)',
+              filter: isHeroLoaded ? 'blur(0px)' : 'blur(10px)',
+              transition: 'opacity 2s cubic-bezier(0.16, 1, 0.3, 1), transform 2s cubic-bezier(0.16, 1, 0.3, 1), filter 2s cubic-bezier(0.16, 1, 0.3, 1)',
+              willChange: 'opacity, transform, filter',
+            }}
+          >
 
             {/* ブランドネーム（最上部） */}
             <span
@@ -111,8 +212,6 @@ export default function Home() {
             >
               フランスのマルシェを訪れるときのような、<br className="sm:hidden" />胸の高鳴りを。
             </p>
-
-            {/* 💡 VIEW MORE ボタンエリア（削除完了しました） */}
           </div>
 
           {/* 🌟 スクロール表示エリア */}
@@ -128,23 +227,29 @@ export default function Home() {
         </section>
 
         {/* ✨ コンセプト（導入）セクション */}
-        <section id="concept" className="py-20 sm:py-32 bg-stone-50/50 text-center relative overflow-hidden">
+        <section id="concept" ref={conceptRef} className="py-20 sm:py-32 bg-stone-50/50 text-center relative overflow-hidden">
           <div className="absolute -top-24 -left-24 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-3xl mx-auto px-8 flex flex-col items-center">
 
-            {/* セクションの小さな英語見出し */}
+            {/* セクションの小さな英語見出し (Delay: 0s) */}
             <span
               className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] uppercase text-emerald-800/70 block mb-3 sm:mb-4"
-              style={{ fontFamily: "'Lora', serif" }}
+              style={{
+                fontFamily: "'Lora', serif",
+                ...getFadeUpStyle(isConceptVisible, 0)
+              }}
             >
               Our Concept
             </span>
 
-            {/* 🌟 メインの日本語見出し */}
+            {/* 🌟 メインの日本語見出し (Delay: 0.2s) */}
             <h2
               className="text-xl sm:text-2xl md:text-3xl font-medium tracking-widest text-emerald-950 mb-10 sm:mb-14 text-center break-words leading-relaxed"
-              style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
+              style={{
+                fontFamily: "'BIZ UDPGothic', sans-serif",
+                ...getFadeUpStyle(isConceptVisible, 0.2)
+              }}
             >
               日常に溶け込む、<br className="sm:hidden" />小さなお花の市場。
             </h2>
@@ -154,44 +259,57 @@ export default function Home() {
               className="text-sm sm:text-base text-stone-700 tracking-wide leading-loose space-y-6 sm:space-y-8 max-w-xl mx-auto text-center break-words"
               style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
             >
-              <p>
-                フルールマルシェとは、フランス語で「お花の市場」という意味。<br />
-                フランスでは、朝からたくさんの人々がマルシェに繰り出し、<br className="hidden sm:block" />
-                新鮮な食材や、日用品を買い求めます。
-              </p>
+              {/* 段落 1 (Delay: 0.4s) */}
+              <div style={getFadeUpStyle(isConceptVisible, 0.4)}>
+                <p>
+                  フルールマルシェとは、フランス語で「お花の市場」という意味。<br />
+                  フランスでは、朝からたくさんの人々がマルシェに繰り出し、<br className="hidden sm:block" />
+                  新鮮な食材や、日用品を買い求めます。
+                </p>
+              </div>
 
-              <p>
-                自分の目で見て選び、街の活気や人との繋がりを感じる大切な場所。<br />
-                私たちもそんなマルシェのように、誰もが気軽に立ち寄りやすく、<br className="hidden sm:block" />
-                地域の皆様の日常に欠かせないお店でありたいと願っています。
-              </p>
+              {/* 段落 2 (Delay: 0.6s) */}
+              <div style={getFadeUpStyle(isConceptVisible, 0.6)}>
+                <p>
+                  自分の目で見て選び、街の活気や人との繋がりを感じる大切な場所。<br />
+                  私たちもそんなマルシェのように、誰もが気軽に立ち寄りやすく、<br className="hidden sm:block" />
+                  地域の皆様の日常に欠かせないお店でありたいと願っています。
+                </p>
+              </div>
 
-              <div className="w-12 h-px bg-emerald-900/20 mx-auto my-8 sm:my-10" />
+              {/* 区切り線 (Delay: 0.8s) */}
+              <div
+                className="w-12 h-px bg-emerald-900/20 mx-auto my-8 sm:my-10"
+                style={getFadeUpStyle(isConceptVisible, 0.8)}
+              />
 
-              <p className="font-medium text-emerald-900 leading-relaxed">
-                特別な日だけじゃなく、<br className="sm:hidden" />なんでもない日常にこそお花を。
-              </p>
+              {/* ハイライト段落 (Delay: 1.0s) */}
+              <div style={getFadeUpStyle(isConceptVisible, 1.0)}>
+                <p className="font-medium text-emerald-900 leading-relaxed">
+                  特別な日だけじゃなく、<br className="sm:hidden" />なんでもない日常にこそお花を。
+                </p>
+              </div>
 
-              <p>
-                あなたの暮らしを彩る、心に寄り添うような<br className="hidden sm:block" />
-                植物たちを取り揃えてお待ちしています。
-              </p>
+              {/* 段落 3 (Delay: 1.2s) */}
+              <div style={getFadeUpStyle(isConceptVisible, 1.2)}>
+                <p>
+                  あなたの暮らしを彩る、心に寄り添うような<br className="hidden sm:block" />
+                  植物たちを取り揃えてお待ちしています。
+                </p>
+              </div>
             </div>
 
           </div>
         </section>
 
         {/* ✨ Instagram フィードセクション */}
-        {/* 💡 修正ポイント：背景を bg-emerald-50/30 から コンセプトと同じ bg-stone-50/50 へ変更 */}
-        <section id="instagram-feed" className="py-24 sm:py-32 bg-stone-50/50 text-center relative overflow-hidden">
-
-          {/* 💡 修正ポイント：光の演出もコンセプトと同じ淡いエメラルド（-top-24 -left-24 / bg-emerald-100/20）に揃えて統一 */}
+        <section id="instagram-feed" ref={instaRef} className="py-24 sm:py-32 bg-stone-50/50 text-center relative overflow-hidden">
           <div className="absolute -top-24 -left-24 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
 
-            {/* セクション見出し */}
-            <div className="mb-12 sm:mb-16 space-y-2">
+            {/* セクション見出し (Delay: 0s) */}
+            <div className="mb-12 sm:mb-16 space-y-2" style={getFadeUpStyle(isInstaVisible, 0)}>
               <span
                 className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] uppercase text-emerald-800/70 block"
                 style={{ fontFamily: "'Lora', serif" }}
@@ -215,8 +333,11 @@ export default function Home() {
             {/* 🌟 アカウント配置コンテナ：SPは縦1列 / PC(lg)は横2列並び */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-start">
 
-              {/* 📸 1. 八乙女店 アカウントカード */}
-              <div className="bg-white p-5 sm:p-7 rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.03)] space-y-5">
+              {/* 📸 1. 八乙女店 アカウントカード (Delay: 0.2s) */}
+              <div
+                className="bg-white p-5 sm:p-7 rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.03)] space-y-5"
+                style={getFadeUpStyle(isInstaVisible, 0.2)}
+              >
 
                 {/* アカウントヘッダー部 */}
                 <div className="flex items-center justify-between border-b border-stone-100 pb-4">
@@ -246,7 +367,7 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs font-bold text-emerald-800 hover:text-white border border-emerald-800/30 bg-transparent hover:bg-emerald-800 px-4 py-1.5 rounded-full transition-all duration-300"
-                    style={{ fontFamily: "'Lora', sans-serif" }}
+                    style={{ fontFamily: "'Lora', serif" }}
                   >
                     Follow
                   </a>
@@ -258,14 +379,14 @@ export default function Home() {
                     <div key={id} className="relative aspect-square rounded-2xl overflow-hidden bg-stone-50 group cursor-pointer shadow-2xs">
                       <div
                         className="w-full h-full bg-emerald-900/5 group-hover:scale-103 transition-transform duration-700 ease-out flex items-center justify-center text-stone-300 text-xs"
-                        style={{ fontFamily: "'Lora', sans-serif" }}
+                        style={{ fontFamily: "'Lora', serif" }}
                       >
                         photo
                       </div>
                       <div className="absolute inset-0 bg-emerald-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <span
                           className="text-white text-xs tracking-widest font-medium bg-black/10 px-3 py-1.5 rounded-full backdrop-blur-xs"
-                          style={{ fontFamily: "'Lora', sans-serif" }}
+                          style={{ fontFamily: "'Lora', serif" }}
                         >
                           View Post
                         </span>
@@ -275,8 +396,11 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* 📸 2. AER（アエル）店 アカウントカード */}
-              <div className="bg-white p-5 sm:p-7 rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.03)] space-y-5">
+              {/* 📸 2. AER（アエル）店 アカウントカード (Delay: 0.4s) */}
+              <div
+                className="bg-white p-5 sm:p-7 rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.03)] space-y-5"
+                style={getFadeUpStyle(isInstaVisible, 0.4)}
+              >
 
                 {/* アカウントヘッダー部 */}
                 <div className="flex items-center justify-between border-b border-stone-100 pb-4">
@@ -306,7 +430,7 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs font-bold text-emerald-800 hover:text-white border border-emerald-800/30 bg-transparent hover:bg-emerald-800 px-4 py-1.5 rounded-full transition-all duration-300"
-                    style={{ fontFamily: "'Lora', sans-serif" }}
+                    style={{ fontFamily: "'Lora', serif" }}
                   >
                     Follow
                   </a>
@@ -318,14 +442,14 @@ export default function Home() {
                     <div key={id} className="relative aspect-square rounded-2xl overflow-hidden bg-stone-50 group cursor-pointer shadow-2xs">
                       <div
                         className="w-full h-full bg-emerald-900/5 group-hover:scale-103 transition-transform duration-700 ease-out flex items-center justify-center text-stone-300 text-xs"
-                        style={{ fontFamily: "'Lora', sans-serif" }}
+                        style={{ fontFamily: "'Lora', serif" }}
                       >
                         photo
                       </div>
                       <div className="absolute inset-0 bg-emerald-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <span
                           className="text-white text-xs tracking-widest font-medium bg-black/10 px-3 py-1.5 rounded-full backdrop-blur-xs"
-                          style={{ fontFamily: "'Lora', sans-serif" }}
+                          style={{ fontFamily: "'Lora', serif" }}
                         >
                           View Post
                         </span>
@@ -341,16 +465,13 @@ export default function Home() {
         </section>
 
         {/* ✨ SHOP INFO / 店舗情報セクション */}
-        {/* 💡 修正ポイント：bg-stone-50/60 から Instagramと同じ bg-emerald-50/30 へ変更 */}
-        <section id="shop" className="py-24 sm:py-32 bg-emerald-50/30 text-center relative overflow-hidden">
-
-          {/* 💡 修正ポイント：右下に柔らかな光のアクセントを追加し、セクションの奥行きと華やかさを統一 */}
+        <section id="shop" ref={shopRef} className="py-24 sm:py-32 bg-emerald-50/30 text-center relative overflow-hidden">
           <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-amber-100/30 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-6xl mx-auto px-6 relative z-10">
 
-            {/* セクション見出し */}
-            <div className="text-center mb-16 space-y-2">
+            {/* セクション見出し (Delay: 0s) */}
+            <div className="text-center mb-16 space-y-2" style={getFadeUpStyle(isShopVisible, 0)}>
               <span
                 className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] uppercase text-emerald-800/70 block"
                 style={{ fontFamily: "'Lora', serif" }}
@@ -374,8 +495,11 @@ export default function Home() {
             {/* 🌟 店舗配置コンテナ：SPは縦1列 / PC(lg)は綺麗に2列並び */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-stretch">
 
-              {/* 🏢 1. 八乙女店 カード */}
-              <div className="bg-white rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.02)] overflow-hidden flex flex-col justify-between">
+              {/* 🏢 1. 八乙女店 カード (Delay: 0.2s) */}
+              <div
+                className="bg-white rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.02)] overflow-hidden flex flex-col justify-between"
+                style={getFadeUpStyle(isShopVisible, 0.2)}
+              >
 
                 {/* 📸 八乙女店 画像エリア */}
                 <div className="relative w-full aspect-[16/10] bg-stone-100">
@@ -491,8 +615,11 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* 🏢 2. 仙台AER（アエル）店 カード */}
-              <div className="bg-white rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.02)] overflow-hidden flex flex-col justify-between">
+              {/* 🏢 2. 仙台AER（アエル）店 カード (Delay: 0.4s) */}
+              <div
+                className="bg-white rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.02)] overflow-hidden flex flex-col justify-between"
+                style={getFadeUpStyle(isShopVisible, 0.4)}
+              >
 
                 {/* 📸 AER店 画像エリア */}
                 <div className="relative w-full aspect-[16/10] bg-stone-100">
