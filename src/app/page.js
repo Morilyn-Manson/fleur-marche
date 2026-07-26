@@ -250,29 +250,22 @@ export default function Home() {
             }}
           >
 
-            {/* ブランドネーム（最上部） */}
+            {/* サブタイトル（上部） */}
             <span
-              className="text-[11px] sm:text-xs md:text-sm font-bold tracking-[0.2em] sm:tracking-[0.3em] uppercase text-emerald-900 block mb-3 sm:mb-4"
-              style={{ fontFamily: "'Lora', serif" }}
+              className="text-[11px] sm:text-xs md:text-sm font-bold tracking-[0.25em] sm:tracking-[0.35em] uppercase text-emerald-900 block mb-2 sm:mb-3"
+              style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
             >
-              Fleur Marchē Original Flower Shop
+              FLOWER & GREEN
             </span>
 
             {/* 🌟 メインタイトル */}
             <h1
-              className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-medium tracking-[0.1em] sm:tracking-[0.15em] leading-tight break-keep text-emerald-950"
-              style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
+              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-[0.1em] sm:tracking-[0.15em] leading-tight text-emerald-950"
+              style={{ fontFamily: "'Lora', serif" }}
             >
-              日常に溶け込む、小さなお花の市場。
+              Fleur Marchē
             </h1>
 
-            {/* 🌟 サブタイトル */}
-            <p
-              className="text-sm sm:text-lg md:text-xl lg:text-2xl font-normal tracking-[0.1em] sm:tracking-[0.15em] leading-relaxed break-keep text-stone-700 mt-4 sm:mt-5 max-w-2xl"
-              style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
-            >
-              フランスのマルシェを訪れるときのような、<br className="sm:hidden" />胸の高鳴りを。
-            </p>
           </div>
 
           {/* 🌟 スクロール表示エリア */}
