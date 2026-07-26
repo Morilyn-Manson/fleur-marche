@@ -600,8 +600,13 @@ export default function Home() {
                       <p className="text-stone-400 font-medium text-[11px] sm:text-xs">
                         <span style={{ fontFamily: "'Lora', sans-serif" }}>〒981-3135</span>
                       </p>
-                      <p className="font-semibold text-stone-800 text-sm sm:text-base">宮城県仙台市泉区八乙女中央一丁目4-20</p>
-                      <p className="text-stone-500 font-medium">プレジュール八乙女 1F（八乙女駅 徒歩2分）</p>
+                      <p className="font-semibold text-stone-800 text-sm sm:text-base">
+                        宮城県仙台市泉区八乙女中央一丁目4-20<br />
+                        プレジュール八乙女 1F
+                      </p>
+                      <div className="text-[11px] text-emerald-800 font-bold bg-emerald-50 rounded-lg px-3 py-2 mt-2 space-y-0.5 inline-block">
+                        <p>・仙台市地下鉄南北線 八乙女駅 徒歩<span style={{ fontFamily: "'Lora', sans-serif" }}>2</span>分</p>
+                      </div>
                     </div>
 
                     {/* 詳細情報テーブル */}
