@@ -212,7 +212,7 @@ export default function ServicePage() {
                                                 <span className="font-bold text-emerald-900 text-sm">花代 55,000円〜</span>
                                             </div>
                                         </div>
-                                        <p className="text-stone-400 text-[11px] leading-relaxed">※胡蝶蘭は花の輪数・仕立て本数により、価格は様々です。別途ラッピング代を頂戴しております。ご希望価格でお探しすることも可能です。店舗にお問い合わせください。</p>
+                                        <p className="text-stone-400 text-[11px] leading-relaxed">※胡蝶蘭は花の輪数・仕立て本数により、価格は様々です。</p>
                                     </div>
 
                                     <div className="bg-stone-50 p-5 rounded-2xl border border-stone-200/50 space-y-2.5">
@@ -220,6 +220,7 @@ export default function ServicePage() {
                                         <p className="pl-3 relative before:content-['-'] before:absolute before:left-0 before:text-emerald-800">立札の印字サービスを行っております。</p>
                                         <p className="pl-3 relative before:content-['-'] before:absolute before:left-0 before:text-emerald-800 font-semibold text-amber-800">胡蝶蘭はクロネコヤマト配送対象外です。</p>
                                         <p className="pl-3 relative before:content-['-'] before:absolute before:left-0 before:text-emerald-800">店舗からの配達を行っております。（仙台市内）</p>
+                                        <p className="pl-3 relative before:content-['-'] before:absolute before:left-0 before:text-emerald-800">別途ラッピング代を頂戴しております。ご希望価格でお探しすることも可能です。店舗にお問い合わせください。</p>
                                     </div>
                                 </div>
 
