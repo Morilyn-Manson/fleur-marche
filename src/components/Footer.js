@@ -114,13 +114,13 @@ export default function Footer() {
                         >
                             {/* 八乙女店 */}
                             <div className="space-y-1">
-                                <p><strong className="text-emerald-800 block font-semibold">〈Fleur Marchē 八乙女店〉</strong>宮城県仙台市泉区八乙女中央1-4-20</p>
+                                <p><strong className="text-emerald-800 block font-semibold">〈Fleur Marchē 八乙女店〉</strong>宮城県仙台市泉区八乙女中央1-4-20 プレジュール八乙女 1F</p>
                                 <p style={{ fontFamily: "'Lora', sans-serif" }} className="text-[11px] text-stone-400">TEL: 022-725-6225</p>
                             </div>
 
                             {/* 仙台AER店 */}
                             <div className="space-y-1">
-                                <p><strong className="text-emerald-800 block font-semibold">〈Fleur Marchē 仙台AER店〉</strong>宮城県仙台市青葉区中央1-3-1 1F</p>
+                                <p><strong className="text-emerald-800 block font-semibold">〈Fleur Marchē 仙台AER店〉</strong>宮城県仙台市青葉区中央1-3-1 AER アトリウム 1F</p>
                                 <p style={{ fontFamily: "'Lora', sans-serif" }} className="text-[11px] text-stone-400">TEL: 022-721-1787</p>
                             </div>
                         </div>
