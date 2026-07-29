@@ -58,7 +58,7 @@ export default function ServicePage() {
                                 </h2>
 
                                 <p className="text-sm text-stone-600 leading-relaxed mb-8" style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}>
-                                    当店では、「1. ご来店」または「2. お電話」にてご注文を承っております。お客様の大切な想いを形にするため、丁寧にお伺いいたします。
+                                    当店では、ご来店またはお電話にてご注文を承っております。お客様の大切な想いを形にするため、丁寧にお伺いいたします。
                                 </p>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
