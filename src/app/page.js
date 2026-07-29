@@ -592,15 +592,15 @@ export default function Home() {
                       </p>
                     </div>
 
-                    {/* 住所・アクセス（自動マップ遷移を無効化） */}
+                    {/* 住所・アクセス（下線・自動リンク無効化） */}
                     <div
-                      className="space-y-1.5 text-xs sm:text-sm text-stone-600 mb-6 leading-relaxed pointer-events-none select-text"
+                      className="space-y-1.5 text-xs sm:text-sm text-stone-600 mb-6 leading-relaxed pointer-events-none select-text [format-detection:telephone=no]"
                       style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
                     >
                       <p className="text-stone-400 font-medium text-[11px] sm:text-xs">
                         <span style={{ fontFamily: "'Lora', sans-serif" }}>〒981-3135</span>
                       </p>
-                      <p className="font-semibold text-stone-800 text-sm sm:text-base">
+                      <p className="font-semibold text-stone-800 text-sm sm:text-base no-underline">
                         宮城県仙台市泉区八乙女中央一丁目4-20<br />
                         プレジュール八乙女 1F
                       </p>
@@ -717,15 +717,15 @@ export default function Home() {
                       </p>
                     </div>
 
-                    {/* 住所・アクセス（自動マップ遷移を無効化） */}
+                    {/* 住所・アクセス（下線・自動リンク無効化） */}
                     <div
-                      className="space-y-1.5 text-xs sm:text-sm text-stone-600 mb-6 leading-relaxed pointer-events-none select-text"
+                      className="space-y-1.5 text-xs sm:text-sm text-stone-600 mb-6 leading-relaxed pointer-events-none select-text [format-detection:telephone=no]"
                       style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
                     >
                       <p className="text-stone-400 font-medium text-[11px] sm:text-xs">
                         <span style={{ fontFamily: "'Lora', sans-serif" }}>〒981-6101</span>
                       </p>
-                      <p className="font-semibold text-stone-800 text-sm sm:text-base">宮城県仙台市青葉区中央一丁目3-1</p>
+                      <p className="font-semibold text-stone-800 text-sm sm:text-base no-underline">宮城県仙台市青葉区中央一丁目3-1</p>
                       <div className="text-[11px] text-emerald-800 font-bold bg-emerald-50 rounded-lg px-3 py-2 mt-2 space-y-0.5 inline-block pointer-events-auto">
                         <p>・<span style={{ fontFamily: "'Lora', sans-serif" }}>JR</span> 仙台駅 ペデストリアンデッキ直結 徒歩<span style={{ fontFamily: "'Lora', sans-serif" }}>2</span>分</p>
                         <p>・仙台市地下鉄 仙台駅 北<span style={{ fontFamily: "'Lora', sans-serif" }}>8</span>番出口 徒歩<span style={{ fontFamily: "'Lora', sans-serif" }}>2</span>分</p>
