@@ -76,8 +76,8 @@ export default function Footer() {
                             style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
                         >
                             <li>
-                                <Link 
-                                    href="/#shop" 
+                                <Link
+                                    href="/#shop"
                                     onClick={handleShopClick}
                                     className="hover:text-emerald-700 transition-colors flex items-center gap-1"
                                 >
@@ -114,14 +114,38 @@ export default function Footer() {
                         >
                             {/* 八乙女店 */}
                             <div className="space-y-1">
-                                <p><strong className="text-emerald-800 block font-semibold">〈Fleur Marchē 八乙女店〉</strong>宮城県仙台市泉区八乙女中央1-4-20 プレジュール八乙女 1F</p>
-                                <p style={{ fontFamily: "'Lora', sans-serif" }} className="text-[11px] text-stone-400">TEL: 022-725-6225</p>
+                                <p>
+                                    <strong className="text-emerald-800 block font-semibold">〈Fleur Marchē 八乙女店〉</strong>
+                                    <a
+                                        href="https://maps.google.com/?q=宮城県仙台市泉区八乙女中央1-4-20"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:underline underline-offset-2"
+                                    >
+                                        宮城県仙台市泉区八乙女中央1-4-20 プレジュール八乙女 1F
+                                    </a>
+                                </p>
+                                <p style={{ fontFamily: "'Lora', sans-serif" }} className="text-[11px] text-stone-400">
+                                    TEL: <a href="tel:0227256225" className="hover:underline">022-725-6225</a>
+                                </p>
                             </div>
 
                             {/* 仙台AER店 */}
                             <div className="space-y-1">
-                                <p><strong className="text-emerald-800 block font-semibold">〈Fleur Marchē 仙台AER店〉</strong>宮城県仙台市青葉区中央1-3-1 AER アトリウム 1F</p>
-                                <p style={{ fontFamily: "'Lora', sans-serif" }} className="text-[11px] text-stone-400">TEL: 022-721-1787</p>
+                                <p>
+                                    <strong className="text-emerald-800 block font-semibold">〈Fleur Marchē 仙台AER店〉</strong>
+                                    <a
+                                        href="https://maps.google.com/?q=宮城県仙台市青葉区中央1-3-1 AER"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:underline underline-offset-2"
+                                    >
+                                        宮城県仙台市青葉区中央1-3-1 AER アトリウム 1F
+                                    </a>
+                                </p>
+                                <p style={{ fontFamily: "'Lora', sans-serif" }} className="text-[11px] text-stone-400">
+                                    TEL: <a href="tel:0227211787" className="hover:underline">022-721-1787</a>
+                                </p>
                             </div>
                         </div>
                     </div>
