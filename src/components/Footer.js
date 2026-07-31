@@ -112,10 +112,10 @@ export default function Footer() {
                             className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-xs text-stone-500"
                             style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
                         >
-                            {/* 八乙女店 */}
+                            {/* 八乙女駅前店 */}
                             <div className="space-y-1">
                                 <p>
-                                    <strong className="text-emerald-800 block font-semibold">〈Fleur Marchē 八乙女店〉</strong>
+                                    <strong className="text-emerald-800 block font-semibold">〈Fleur Marchē 八乙女駅前店〉</strong>
                                     <a
                                         href="https://maps.google.com/?q=宮城県仙台市泉区八乙女中央1-4-20"
                                         target="_blank"

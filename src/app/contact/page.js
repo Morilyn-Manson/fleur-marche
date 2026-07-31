@@ -50,7 +50,7 @@ export default function ContactPage() {
                                     className={`text-sm font-bold tracking-widest transition-colors ${activeStore === 'YAOTOME' ? 'text-emerald-900' : 'text-stone-400'}`}
                                     style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
                                 >
-                                    八乙女店宛て
+                                    八乙女駅前店宛て
                                 </span>
                                 <div className={`h-0.5 bg-emerald-800 transition-all duration-300 mt-1 rounded-full ${activeStore === 'YAOTOME' ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
                             </button>
@@ -76,7 +76,7 @@ export default function ContactPage() {
                             {/* 選択中の店舗ガイド */}
                             <div className="mb-8 border-l-4 border-emerald-800 pl-4">
                                 <h2 className="text-base font-bold text-stone-900 tracking-wide" style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}>
-                                    {activeStore === 'YAOTOME' ? 'Fleur Marchē 八乙女店 へのお問い合わせ' : 'Fleur Marchē 仙台AER店 へのお問い合わせ'}
+                                    {activeStore === 'YAOTOME' ? 'Fleur Marchē 八乙女駅前店 へのお問い合わせ' : 'Fleur Marchē 仙台AER店 へのお問い合わせ'}
                                 </h2>
                                 <p className="text-[11px] text-stone-400 tracking-wider mt-0.5" style={{ fontFamily: "'Lora', serif" }}>
                                     {activeStore === 'YAOTOME' ? 'CONTACT TO YAOTOME BRANCH' : 'CONTACT TO SENDAI AER BRANCH'}
@@ -96,7 +96,7 @@ export default function ContactPage() {
                                 <input
                                     type="hidden"
                                     name="お問い合わせ店舗"
-                                    value={activeStore === 'YAOTOME' ? '八乙女店' : '仙台AER店'}
+                                    value={activeStore === 'YAOTOME' ? '八乙女駅前店' : '仙台AER店'}
                                 />
 
                                 {/* お名前 */}

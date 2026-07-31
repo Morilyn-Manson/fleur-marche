@@ -27,7 +27,7 @@ export default function Home() {
   const [loadingYaotome, setLoadingYaotome] = useState(true);
   const [loadingAer, setLoadingAer] = useState(true);
 
-  // 🌟 Behold JSON Feed URL (八乙女店・AER店)
+  // 🌟 Behold JSON Feed URL (八乙女駅前店・AER店)
   const YAOTOME_BEHOLD_URL = 'https://feeds.behold.so/QMVYvBk2bB8cLZIzUILZ';
   const AER_BEHOLD_URL = 'https://feeds.behold.so/6yUdsYgJXb8DWxQvvK9g';
 
@@ -73,7 +73,7 @@ export default function Home() {
       }
     };
 
-    // 🌟 八乙女店・AER店のデータ取得
+    // 🌟 八乙女駅前店・AER店のデータ取得
     fetchInstagramPosts(YAOTOME_BEHOLD_URL, setYaotomePosts, setLoadingYaotome, 'Yaotome');
     fetchInstagramPosts(AER_BEHOLD_URL, setAerPosts, setLoadingAer, 'AER');
 
@@ -387,7 +387,7 @@ export default function Home() {
             {/* 🌟 アカウント配置コンテナ：SPは縦1列 / PC(lg)は横2列並び */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-start">
 
-              {/* 📸 1. 八乙女店 アカウントカード */}
+              {/* 📸 1. 八乙女駅前店 アカウントカード */}
               <div
                 className="bg-white p-5 sm:p-7 rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.03)] space-y-5"
                 style={getFadeUpStyle(isInstaVisible, 0.2)}
@@ -406,7 +406,7 @@ export default function Home() {
                         className="text-sm font-bold text-stone-800 tracking-wide"
                         style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
                       >
-                        フルールマルシェ 八乙女店
+                        フルールマルシェ 八乙女駅前店
                       </h3>
                       <p
                         className="text-xs text-stone-400 tracking-normal"
@@ -555,17 +555,17 @@ export default function Home() {
             {/* 🌟 店舗配置コンテナ：SPは縦1列 / PC(lg)は綺麗に2列並び */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-stretch">
 
-              {/* 🏢 1. 八乙女店 カード (Delay: 0.2s) */}
+              {/* 🏢 1. 八乙女駅前店 カード (Delay: 0.2s) */}
               <div
                 className="bg-white rounded-3xl border border-emerald-900/5 shadow-[0_10px_30px_rgba(4,47,31,0.02)] overflow-hidden flex flex-col justify-between"
                 style={getFadeUpStyle(isShopVisible, 0.2)}
               >
 
-                {/* 📸 八乙女店 画像エリア */}
+                {/* 📸 八乙女駅前店 画像エリア */}
                 <div className="relative w-full aspect-[16/10] bg-stone-100">
                   <Image
                     src="/images/yaotome.jpg"
-                    alt="Fleur Marchē 八乙女店 店舗外観"
+                    alt="Fleur Marchē 八乙女駅前店 店舗外観"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover hover:scale-103 transition-transform duration-700 ease-out"
@@ -582,7 +582,7 @@ export default function Home() {
                         className="text-lg font-bold text-stone-900 tracking-wide mb-1"
                         style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}
                       >
-                        Fleur Marchē 〈八乙女店〉
+                        Fleur Marchē 〈八乙女駅前店〉
                       </h3>
                       <p
                         className="text-[10px] text-stone-400 tracking-wider uppercase"

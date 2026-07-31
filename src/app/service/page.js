@@ -63,7 +63,7 @@ export default function ServicePage() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                                     <div className="bg-stone-50 p-5 rounded-2xl border border-stone-200/50">
-                                        <h3 className="text-sm font-bold text-emerald-900 mb-3" style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}>八乙女店</h3>
+                                        <h3 className="text-sm font-bold text-emerald-900 mb-3" style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}>八乙女駅前店</h3>
                                         <ul className="text-xs space-y-2 text-stone-600" style={{ fontFamily: "'BIZ UDPGothic', sans-serif" }}>
                                             <li><span className="font-semibold text-stone-400">営業時間：</span><span style={{ fontFamily: "'Lora', sans-serif" }} className="text-stone-800 font-medium">10:00 〜 17:00</span></li>
                                             <li><span className="font-semibold text-stone-400">休業日：</span>木曜日・日曜日（※繁忙期などは営業）</li>
@@ -270,15 +270,15 @@ export default function ServicePage() {
 
                                         <div className="space-y-2">
                                             <div className="flex justify-between items-center p-2.5 bg-stone-50 rounded-xl border border-stone-200/40">
-                                                <span>5〜6寸</span>
+                                                <span>5〜6号</span>
                                                 <span className="font-bold text-emerald-900">5,500円〜</span>
                                             </div>
                                             <div className="flex justify-between items-center p-2.5 bg-stone-50 rounded-xl border border-stone-200/40">
-                                                <span>7〜8寸</span>
+                                                <span>7〜8号</span>
                                                 <span className="font-bold text-emerald-900">8,800円〜16,500円程度</span>
                                             </div>
                                             <div className="flex justify-between items-center p-2.5 bg-stone-50 rounded-xl border border-stone-200/40">
-                                                <span>9寸〜10寸</span>
+                                                <span>9〜10号</span>
                                                 <span className="font-bold text-emerald-900">16,500円〜33,000円程度</span>
                                             </div>
                                         </div>
@@ -311,7 +311,7 @@ export default function ServicePage() {
                                     {/* ヤマト運輸 */}
                                     <div className="space-y-4">
                                         <h3 className="text-sm font-bold text-stone-800 flex items-center gap-1.5 border-b border-stone-100 pb-2">ヤマト運輸</h3>
-                                        <p className="pl-1 text-stone-500 font-medium">八乙女店・AER店、両店舗でご利用いただけます。</p>
+                                        <p className="pl-1 text-stone-500 font-medium">八乙女駅前店・AER店、両店舗でご利用いただけます。</p>
                                         <ul className="space-y-2 list-disc pl-4 text-stone-600 leading-relaxed">
                                             <li>ご到着希望日の3日前までのご注文をお勧めいたします。</li>
                                             <li>翌日着地域のみ発送可能です。（北海道、沖縄、九州、離島等の翌々日到着地域は不可）</li>
@@ -330,8 +330,8 @@ export default function ServicePage() {
 
                                         <div className="bg-stone-50 p-4 rounded-xl border border-stone-200/50 space-y-3 mt-2">
                                             <div>
-                                                <span className="font-bold text-stone-800 block">八乙女店</span>
-                                                <p className="text-stone-500 leading-relaxed">1名体制の為、店舗の状況によりますが、配達を承っております。（仙台市内）</p>
+                                                <span className="font-bold text-stone-800 block">八乙女駅前店</span>
+                                                <p className="text-stone-500 leading-relaxed">店舗の状況によりますが、配達を承っております。（仙台市内）</p>
                                             </div>
                                             <div className="border-t border-stone-200/60 pt-2">
                                                 <span className="font-bold text-stone-800 block">AER店</span>
